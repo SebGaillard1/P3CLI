@@ -13,55 +13,50 @@ class Character {
     var name: String
     var arme: Weapon
     var type: Type
+    var heal: Int
     
-    init(life: Int, name: String, arme: Weapon, type: Type) {
+    init(life: Int, name: String, arme: Weapon, type: Type, heal: Int) {
         self.life = life
         self.name = name
         self.arme = arme
         self.type = type
+        self.heal = heal
     }
     
-    func attack() {
-        
-    }
-    
-    func heal() {
-        
-    }
 }
 
 class Knight: Character {
     init(knightName: String) {
-        super.init(life: 100, name: knightName, arme: Weapon.init(name: "Sword", degats: 20), type: .Knight)
+        super.init(life: 100, name: knightName, arme: Weapon.init(name: "Sword", degats: 20), type: .Knight, heal: 10)
     }
 }
 
 class Archer: Character {
     init(archerName: String) {
-        super.init(life: 90, name: archerName, arme: Weapon.init(name: "Bow", degats: 22), type: .Archer)
+        super.init(life: 90, name: archerName, arme: Weapon.init(name: "Bow", degats: 22), type: .Archer, heal: 10)
     }
 }
 
 class Wizard: Character {
     init(wizardName: String) {
-        super.init(life: 80, name: wizardName, arme: Weapon.init(name: "Spell", degats: 24), type: .Wizard)
+        super.init(life: 80, name: wizardName, arme: Weapon.init(name: "Spell", degats: 24), type: .Wizard, heal: 10)
     }
 }
 
 class Dragon: Character {
     init(dragonName: String) {
-        super.init(life: 50, name: dragonName, arme: Weapon.init(name: "Fire", degats: 40), type: .Dragon)
+        super.init(life: 50, name: dragonName, arme: Weapon.init(name: "Fire", degats: 40), type: .Dragon, heal: 10)
     }
 }
 
 class Ninja: Character {
     init(ninjaName: String) {
-        super.init(life: 60, name: ninjaName, arme: Weapon.init(name: "Katana", degats: 35), type: .Ninja)
+        super.init(life: 60, name: ninjaName, arme: Weapon.init(name: "Katana", degats: 35), type: .Ninja, heal: 10)
     }
 }
 class Skeleton: Character {
     init(skeletonName: String) {
-        super.init(life: 40, name: skeletonName, arme: Weapon.init(name: "Bone", degats: 30), type: .Skeleton)
+        super.init(life: 40, name: skeletonName, arme: Weapon.init(name: "Bone", degats: 30), type: .Skeleton, heal: 10)
     }
 }
 
