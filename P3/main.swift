@@ -14,6 +14,8 @@ var charactersAliveP2 = [Character]()
 
 var playerPlaying = 1 // Vaut 1 ou 2. Indique à quel joueur c'est le tour.
 
+var numberOfTurn = 0 // Compteur pour le nombres de tours dans la partie
+
 startGame()
 
 
@@ -22,11 +24,11 @@ startGame()
 func startGame() {
     
     print("Bienvenue dans le jeu")
-    playerChooseCharacter()
+    playersChooseCharacters()
     
 }
 
-func playerChooseCharacter() {
+func playersChooseCharacters() {
     
     if charactersList.count < 6 { // Quand on passe à 6, les 2 joueurs ont choisi, on lance la partie
         if charactersList.count < 3 { // Dans ce cas c'est le joueur 1 qui choisi ses personnages
@@ -42,43 +44,43 @@ func playerChooseCharacter() {
             let characterName = setCharacterName()
             if characterName != nil {
                 charactersList.append(Knight(knightName: characterName!))
-                playerChooseCharacter()
+                playersChooseCharacters()
             }
         case "2":
             let characterName = setCharacterName()
             if characterName != nil {
                 charactersList.append(Archer(archerName: characterName!))
-                playerChooseCharacter()
+                playersChooseCharacters()
             }
         case "3":
             let characterName = setCharacterName()
             if characterName != nil {
                 charactersList.append(Wizard(wizardName: characterName!))
-                playerChooseCharacter()
+                playersChooseCharacters()
             }
         case "4":
             let characterName = setCharacterName()
             if characterName != nil {
                 charactersList.append(Dragon(dragonName: characterName!))
-                playerChooseCharacter()
+                playersChooseCharacters()
             }
         case "5":
             let characterName = setCharacterName()
             if characterName != nil {
                 charactersList.append(Ninja(ninjaName: characterName!))
-                playerChooseCharacter()
+                playersChooseCharacters()
             }
         case "6":
             let characterName = setCharacterName()
             if characterName != nil {
                 charactersList.append(Skeleton(skeletonName: characterName!))
-                playerChooseCharacter()
+                playersChooseCharacters()
             }
         default:
             print("\nSaisie invalide. Saisissez un chiffre entre 1 et 6.")
-            playerChooseCharacter()
+            playersChooseCharacters()
         }
-    } else { // On passe ici quand 3 personnages ont été ajouté dans le tableau charactersList
+    } else { // On passe ici quand 6 personnages ont été ajouté dans le tableau charactersList
         startFight() // On démarre le combat
     }
     
@@ -112,14 +114,16 @@ func startFight() {
 
 func nextTurn() {
     
-    print("Joueur \(playerPlaying), veux tu :\n1 - Attaquer\n2 - Soigner")
+    print("\nJoueur \(playerPlaying), veux tu :\n1 - Attaquer\n2 - Soigner")
     
     let userInput = readLine()
     
     switch userInput {
     case "1":
+        numberOfTurn += 1
         selectCharacterAttacking()
     case "2":
+        numberOfTurn += 1
         selectCharacterHealing()
     default:
         print("Saisie incorrecte. Saisissez 1 ou 2")
@@ -127,278 +131,45 @@ func nextTurn() {
     }
 }
 
-func selectCharacterHealing() {
-    
-    var index = 0
-    updateCharactersAlive()
-    
-    if playerPlaying == 1 {
-        print("\nLe joueur 1 choisi le personnage qui va soigner :")
-        for character in charactersAliveP1 {
-            index += 1
-            print("\(index) - \(character.type) : \(character.name)")
-        }
-        let userInput = readLine()
-        
-        switch userInput {
-        case "1":
-            print("\(charactersAliveP1[0].name) selected")
-            selectTargetAndHeal(characterHealing: charactersAliveP1[0], charactersAlive: charactersAliveP1)
-        case "2":
-            if charactersAliveP1.count > 1 {
-                print("\(charactersAliveP1[1].name) selected")
-                selectTargetAndHeal(characterHealing: charactersAliveP1[1], charactersAlive: charactersAliveP1)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterHealing()
-            }
-        case "3":
-            if charactersAliveP1.count > 2 {
-                print("\(charactersAliveP1[2].name) selected")
-                selectTargetAndHeal(characterHealing: charactersAliveP1[2], charactersAlive: charactersAliveP1)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterHealing()
-            }
-        default:
-            print("Saisie incorrecte, recommencez.")
-            selectCharacterHealing()
-        }
-        
-        
-    } else {
-        print("\nLe joueur 2 choisi le personnage qui va attaquer :")
-        
-        for character in charactersAliveP2 {
-            index += 1
-            print("\(index) - \(character.type) : \(character.name)")
-        }
-        
-        let userInput = readLine()
-        
-        switch userInput {
-        case "1":
-            print("\(charactersAliveP2[0].name) selected")
-            selectTargetAndHeal(characterHealing: charactersAliveP2[0], charactersAlive: charactersAliveP2)
-        case "2":
-            if charactersAliveP2.count > 1 {
-                print("\(charactersAliveP2[1].name) selected")
-                selectTargetAndHeal(characterHealing: charactersAliveP2[1], charactersAlive: charactersAliveP2)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterHealing()
-            }
-        case "3":
-            if charactersAliveP2.count > 2 {
-                print("\(charactersAliveP2[2].name) selected")
-                selectTargetAndHeal(characterHealing: charactersAliveP2[2], charactersAlive: charactersAliveP2)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterHealing()
-            }
-        default:
-            print("Saisie incorrecte, recommencez.")
-            selectCharacterHealing()
-        }
-        
-    }
-}
 
-func selectCharacterAttacking() {
-    
-    var index = 0
-    
-    updateCharactersAlive()
-    
-    if playerPlaying == 1 {
-        print("\nLe joueur 1 choisi le personnage qui va attaquer :")
-        for character in charactersAliveP1 {
-            index += 1
-            print("\(index) - \(character.type) : \(character.name)")
-        }
-        
-        let userInput = readLine()
-        
-        switch userInput {
-        case "1":
-            print("\(charactersAliveP1[0].name) selected")
-            selectTargetAndAttack(characterAttacking: charactersAliveP1[0], charactersAlive: charactersAliveP2)
-        case "2":
-            if charactersAliveP1.count > 1 {
-                print("\(charactersAliveP1[1].name) selected")
-                selectTargetAndAttack(characterAttacking: charactersAliveP1[1], charactersAlive: charactersAliveP2)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterAttacking()
-            }
-        case "3":
-            if charactersAliveP1.count > 2 {
-                print("\(charactersAliveP1[2].name) selected")
-                selectTargetAndAttack(characterAttacking: charactersAliveP1[2], charactersAlive: charactersAliveP2)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterAttacking()
-            }
-        default:
-            print("Saisie incorrecte, recommencez.")
-            selectCharacterAttacking()
-        }
-        
-        
-    } else {
-        print("\nLe joueur 2 choisi le personnage qui va attaquer :")
-        
-        for character in charactersAliveP2 {
-            index += 1
-            print("\(index) - \(character.type) : \(character.name)")
-        }
-        
-        let userInput = readLine()
-        
-        switch userInput {
-        case "1":
-            print("\(charactersAliveP2[0].name) selected")
-            selectTargetAndAttack(characterAttacking: charactersAliveP2[0], charactersAlive: charactersAliveP1)
-        case "2":
-            if charactersAliveP2.count > 1 {
-                print("\(charactersAliveP2[1].name) selected")
-                selectTargetAndAttack(characterAttacking: charactersAliveP2[1], charactersAlive: charactersAliveP1)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterAttacking()
-            }
-        case "3":
-            if charactersAliveP2.count > 2 {
-                print("\(charactersAliveP2[2].name) selected")
-                selectTargetAndAttack(characterAttacking: charactersAliveP2[2], charactersAlive: charactersAliveP1)
-            } else {
-                print("Saisie incorrecte, recommencez.")
-                selectCharacterAttacking()
-            }
-        default:
-            print("Saisie incorrecte, recommencez.")
-            selectCharacterAttacking()
-        }
-        
-    }
-}
 
-func selectTargetAndAttack(characterAttacking: Character, charactersAlive: [Character]) {
-    
-    var index = 0
-    
-    print("\nChoisissez le personnage qui va recevoir l'attaque : ")
-    for character in charactersAlive {
-        index += 1
-        print("\(index) - \(character.type) : \(character.name)")
-    }
-    
-    let userInput = readLine()
-    
-    switch userInput {
-    case "1":
-        charactersAlive[0].life -= characterAttacking.arme.degats
-        print("\(characterAttacking.name) attaque \(charactersAlive[0].name) avec \(characterAttacking.arme.name) et lui inflige \(characterAttacking.arme.degats) dégâts !")
-        checkIfCharacterDie(character: charactersAlive[0])
-    case "2":
-        if charactersAlive.count > 1 {
-            charactersAlive[1].life -= characterAttacking.arme.degats
-            print("\(characterAttacking.name) attaque \(charactersAlive[1].name) avec \(characterAttacking.arme.name) et lui inflige \(characterAttacking.arme.degats) dégâts !")
-            checkIfCharacterDie(character: charactersAlive[1])
-        } else {
-            print("Saisie incorrecte, recommencez.")
-            selectTargetAndAttack(characterAttacking: characterAttacking, charactersAlive: charactersAlive)
-        }
-    case "3":
-        if charactersAlive.count > 2 {
-            charactersAlive[2].life -= characterAttacking.arme.degats
-            print("\(characterAttacking.name) attaque \(charactersAlive[2].name) avec \(characterAttacking.arme.name) et lui inflige \(characterAttacking.arme.degats) dégâts !")
-            checkIfCharacterDie(character: charactersAlive[2])
-        } else {
-            print("Saisie incorrecte, recommencez.")
-            selectTargetAndAttack(characterAttacking: characterAttacking, charactersAlive: charactersAlive)
-        }
-    default:
-        print("Saisie incorrecte, recommencez.")
-        selectTargetAndAttack(characterAttacking: characterAttacking, charactersAlive: charactersAlive)
-    }
-    
-}
 
-func selectTargetAndHeal(characterHealing: Character, charactersAlive: [Character]) {
-    
-    var index = 0
-    
-    print("\nChoisissez le personnage qui va recevoir le soin : ")
-    for character in charactersAlive {
-        index += 1
-        print("\(index) - \(character.type) : \(character.name)")
-    }
-    
-    let userInput = readLine()
-    
-    switch userInput {
-    case "1":
-        charactersAlive[0].life += characterHealing.heal
-        print("\(characterHealing.name) soigne \(charactersAlive[0].name) de \(characterHealing.heal) pdv. Il a désormais \(charactersAlive[0].life) pdv")
-        isGameFinished()
-    case "2":
-        if charactersAlive.count > 1 {
-            charactersAlive[1].life += characterHealing.heal
-            print("\(characterHealing.name) soigne \(charactersAlive[1].name) de \(characterHealing.heal) pdv. Il a désormais \(charactersAlive[1].life) pdv")
-            isGameFinished()
-        } else {
-            print("Saisie incorrecte, recommencez.")
-            selectTargetAndHeal(characterHealing: characterHealing, charactersAlive: charactersAlive)
-        }
-    case "3":
-        if charactersAlive.count > 2 {
-            charactersAlive[2].life += characterHealing.heal
-            print("\(characterHealing.name) soigne \(charactersAlive[2].name) de \(characterHealing.heal) pdv. Il a désormais \(charactersAlive[2].life) pdv")
-            isGameFinished()
-        } else {
-            print("Saisie incorrecte, recommencez.")
-            selectTargetAndHeal(characterHealing: characterHealing, charactersAlive: charactersAlive)
-        }
-    default:
-        print("Saisie incorrecte, recommencez.")
-        selectTargetAndHeal(characterHealing: characterHealing, charactersAlive: charactersAlive)
-    }
-    
-}
 
 func checkIfCharacterDie(character: Character) {
 
     if character.life <= 0 {
-        print("Le personnage \(character.type) nommé \(character.name) est mort !")
-        isGameFinished() // Quand un personnage meurt on check l'état de la partie. Si une équipe est vide de personnage c'est fini
+        print("\nLe personnage \(character.type) nommé \(character.name) est mort !")
+        endOfTurn()
     } else {
-        print("Il a maintenant \(character.life) pdv.")
-        isGameFinished()
+        print("Il lui reste \(character.life) pdv.")
+        endOfTurn()
     }
     
 }
 
-func isGameFinished() {
+func endOfTurn() {
     
-    updateCharactersAlive()
+    updateArrayOfCharactersAlive()
     
     if charactersAliveP2.count == 0 {
-        print("Tous les personnages du joueur 2 sont morts. LE JOUEUR 1 A GAGNÉ !!!")
+        print("\nTous les personnages du joueur 2 sont morts. LE JOUEUR 1 A GAGNÉ !!!")
+        gameEnded()
     } else if charactersAliveP1.count == 0 {
-        print("Tous les personnages du joueur 1 sont morts. LE JOUEUR 2 A GAGNÉ !!!")
+        print("\nTous les personnages du joueur 1 sont morts. LE JOUEUR 2 A GAGNÉ !!!")
+        gameEnded()
     } else {
         if playerPlaying == 1 {
             playerPlaying = 2
         } else {
             playerPlaying = 1
         }
+        
         nextTurn()
     }
     
 }
 
-func updateCharactersAlive() {
+func updateArrayOfCharactersAlive() {
     
     charactersAliveP1.removeAll()
     charactersAliveP2.removeAll()
@@ -415,4 +186,52 @@ func updateCharactersAlive() {
         }
     }
     
+}
+
+func randomChest(characterAttacking: Character) {
+    
+    let randomInt = Int.random(in: 0...100)
+    switch randomInt {
+    case 0..<5:
+        characterAttacking.arme = Weapon(name: "Épée légendaire", degats: 50)
+        print("Incroyable, un coffre vient d'apparaître devant vous. Il contient une arme très rare !")
+    case 5..<15:
+        characterAttacking.arme = Weapon(name: "Bâton magique", degats: 40)
+        print("Superbe, un coffre vient d'apparaître devant vous. Il contient une arme rare !")
+    case 15..<30:
+        characterAttacking.arme = Weapon(name: "Marteau", degats: 30)
+        print("Un coffre vient d'apparaître devant vous !")
+    case 30..<35:
+        characterAttacking.arme = Weapon(name: "Canne à pêche", degats: 10)
+        print("Un coffre vient d'apparaître devant vous mais son contenu risque de vous déplaire... !")
+    default:
+        () // On ne fait rien
+    }
+}
+
+func gameEnded() {
+    print("/n/n-----------------------------------------------------------------------")
+    print("Compte rendu de la partie :")
+    print("La partie c'est terminée en \(numberOfTurn) tours.")
+    print("Voici l'état des personnages :\n\nJoueur 1 :")
+    
+    for character in charactersList[0..<3] {
+        if character.life <= 0 {
+            character.life = 0
+            print("\(character.type) : \(character.name) \(character.life) pdv")
+        } else {
+            print("\(character.type) : \(character.name) est resté vivant avec \(character.life) pdv !")
+        }
+        
+    }
+    
+    print("\nJoueur 2 :")
+    for character in charactersList[3..<6] {
+        if character.life <= 0 {
+            character.life = 0
+            print("\(character.type) : \(character.name) \(character.life) pdv")
+        } else {
+            print("\(character.type) : \(character.name) est resté vivant avec \(character.life) pdv !")
+        }
+    }
 }
