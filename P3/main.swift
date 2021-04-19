@@ -7,7 +7,7 @@
 
 import Foundation
 
-var charactersList = [Character]()
+var charactersArray = [Character]() // Tableau de l'ensemble des personnages (6)
 
 var charactersAliveP1 = [Character]() // Tableau contenant les perso du joueur 1 qui ont health > 0 (vivants)
 var charactersAliveP2 = [Character]()
@@ -15,6 +15,7 @@ var charactersAliveP2 = [Character]()
 var playerPlaying = 1 // Vaut 1 ou 2. Indique à quel joueur c'est le tour.
 
 var numberOfTurn = 0 // Compteur pour le nombres de tours dans la partie
+
 
 startGame()
 
@@ -30,11 +31,11 @@ func startGame() {
 
 func playersChooseCharacters() {
     
-    if charactersList.count < 6 { // Quand on passe à 6, les 2 joueurs ont choisi, on lance la partie
-        if charactersList.count < 3 { // Dans ce cas c'est le joueur 1 qui choisi ses personnages
-            print("\nLe joueur 1 choisi son personnage \(charactersList.count + 1) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
+    if charactersArray.count < 6 { // Quand on passe à 6, les 2 joueurs ont choisi, on lance la partie
+        if charactersArray.count < 3 { // Dans ce cas c'est le joueur 1 qui choisi ses personnages
+            print("\nLe joueur 1 choisi son personnage \(charactersArray.count + 1) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
         } else {
-            print("\nLe joueur 2 choisi son personnage \(charactersList.count - 2) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
+            print("\nLe joueur 2 choisi son personnage \(charactersArray.count - 2) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
         }
         
         let userInput = readLine() //On récupère l'input
@@ -43,37 +44,37 @@ func playersChooseCharacters() {
         case "1":
             let characterName = setCharacterName()
             if characterName != nil {
-                charactersList.append(Knight(knightName: characterName!))
+                charactersArray.append(Knight(knightName: characterName!))
                 playersChooseCharacters()
             }
         case "2":
             let characterName = setCharacterName()
             if characterName != nil {
-                charactersList.append(Archer(archerName: characterName!))
+                charactersArray.append(Archer(archerName: characterName!))
                 playersChooseCharacters()
             }
         case "3":
             let characterName = setCharacterName()
             if characterName != nil {
-                charactersList.append(Wizard(wizardName: characterName!))
+                charactersArray.append(Wizard(wizardName: characterName!))
                 playersChooseCharacters()
             }
         case "4":
             let characterName = setCharacterName()
             if characterName != nil {
-                charactersList.append(Dragon(dragonName: characterName!))
+                charactersArray.append(Dragon(dragonName: characterName!))
                 playersChooseCharacters()
             }
         case "5":
             let characterName = setCharacterName()
             if characterName != nil {
-                charactersList.append(Ninja(ninjaName: characterName!))
+                charactersArray.append(Ninja(ninjaName: characterName!))
                 playersChooseCharacters()
             }
         case "6":
             let characterName = setCharacterName()
             if characterName != nil {
-                charactersList.append(Skeleton(skeletonName: characterName!))
+                charactersArray.append(Skeleton(skeletonName: characterName!))
                 playersChooseCharacters()
             }
         default:
@@ -91,7 +92,7 @@ func setCharacterName() -> String? {
     print("Veuillez saisir un nom pour votre personnage.")
     
     if let userInputName = readLine() {
-        for character in charactersList { // On parcourt chaque objet du tableau charactersList
+        for character in charactersArray { // On parcourt chaque objet du tableau charactersList
             if userInputName == character.name { // Si le nom saisi par l'utilisateur se trouve déjà dans la propriété d'un des objets existant, c'est true
                 print("\nNom déjà utilisé, le nom doit être unique.") // On averti l'utilisateur
                 _ = setCharacterName() // On rappelle cette même fonction pourqu'il resaisisse un nom
@@ -174,13 +175,13 @@ func updateArrayOfCharactersAlive() {
     charactersAliveP1.removeAll()
     charactersAliveP2.removeAll()
     
-    for character in charactersList[0..<3] {
+    for character in charactersArray[0..<3] {
         if character.life > 0 {
             charactersAliveP1.append(character)
         }
     }
     
-    for character in charactersList[3..<6] {
+    for character in charactersArray[3..<6] {
         if character.life > 0 {
             charactersAliveP2.append(character)
         }
@@ -215,7 +216,7 @@ func gameEnded() {
     print("La partie c'est terminée en \(numberOfTurn) tours.")
     print("Voici l'état des personnages :\n\nJoueur 1 :")
     
-    for character in charactersList[0..<3] {
+    for character in charactersArray[0..<3] {
         if character.life <= 0 {
             character.life = 0
             print("\(character.type) : \(character.name) \(character.life) pdv")
@@ -226,7 +227,7 @@ func gameEnded() {
     }
     
     print("\nJoueur 2 :")
-    for character in charactersList[3..<6] {
+    for character in charactersArray[3..<6] {
         if character.life <= 0 {
             character.life = 0
             print("\(character.type) : \(character.name) \(character.life) pdv")

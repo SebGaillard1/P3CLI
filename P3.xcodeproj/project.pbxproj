@@ -68,8 +68,8 @@
 				57968B1E262988DA00F99412 /* main.swift */,
 				57968B2626298B8900F99412 /* CharacterModel.swift */,
 				57968B2926298B9A00F99412 /* WeaponModel.swift */,
-				57968B2C262C6FF900F99412 /* Heal.swift */,
 				57968B2F262C70A800F99412 /* Attack.swift */,
+				57968B2C262C6FF900F99412 /* Heal.swift */,
 			);
 			path = P3;
 			sourceTree = "<group>";
