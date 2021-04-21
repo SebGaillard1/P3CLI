@@ -10,8 +10,8 @@
 		57968B1F262988DA00F99412 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57968B1E262988DA00F99412 /* main.swift */; };
 		57968B2726298B8900F99412 /* CharacterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57968B2626298B8900F99412 /* CharacterModel.swift */; };
 		57968B2A26298B9A00F99412 /* WeaponModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57968B2926298B9A00F99412 /* WeaponModel.swift */; };
-		57968B2D262C6FF900F99412 /* Heal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57968B2C262C6FF900F99412 /* Heal.swift */; };
-		57968B30262C70A800F99412 /* Attack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57968B2F262C70A800F99412 /* Attack.swift */; };
+		57F649E32630503B0040C01B /* GameBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F649E22630503B0040C01B /* GameBrain.swift */; };
+		57F649E6263050B50040C01B /* GameCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F649E5263050B50040C01B /* GameCycle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,8 +31,8 @@
 		57968B1E262988DA00F99412 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		57968B2626298B8900F99412 /* CharacterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterModel.swift; sourceTree = "<group>"; };
 		57968B2926298B9A00F99412 /* WeaponModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponModel.swift; sourceTree = "<group>"; };
-		57968B2C262C6FF900F99412 /* Heal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heal.swift; sourceTree = "<group>"; };
-		57968B2F262C70A800F99412 /* Attack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attack.swift; sourceTree = "<group>"; };
+		57F649E22630503B0040C01B /* GameBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBrain.swift; sourceTree = "<group>"; };
+		57F649E5263050B50040C01B /* GameCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCycle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +68,8 @@
 				57968B1E262988DA00F99412 /* main.swift */,
 				57968B2626298B8900F99412 /* CharacterModel.swift */,
 				57968B2926298B9A00F99412 /* WeaponModel.swift */,
-				57968B2F262C70A800F99412 /* Attack.swift */,
-				57968B2C262C6FF900F99412 /* Heal.swift */,
+				57F649E22630503B0040C01B /* GameBrain.swift */,
+				57F649E5263050B50040C01B /* GameCycle.swift */,
 			);
 			path = P3;
 			sourceTree = "<group>";
@@ -133,9 +133,9 @@
 			files = (
 				57968B1F262988DA00F99412 /* main.swift in Sources */,
 				57968B2A26298B9A00F99412 /* WeaponModel.swift in Sources */,
+				57F649E32630503B0040C01B /* GameBrain.swift in Sources */,
 				57968B2726298B8900F99412 /* CharacterModel.swift in Sources */,
-				57968B30262C70A800F99412 /* Attack.swift in Sources */,
-				57968B2D262C6FF900F99412 /* Heal.swift in Sources */,
+				57F649E6263050B50040C01B /* GameCycle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
