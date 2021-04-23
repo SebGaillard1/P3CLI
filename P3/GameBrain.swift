@@ -10,10 +10,18 @@ import Foundation
 class GameBrain {
     
     var charactersArray = [Character]() // Ce tableau se remplit a chaque fois qu'un joueur choisi un personnage. (Il contiendra donc 6 'Character' à la fin de la sélection)
+
+    func getCharactersAlivesP1() -> [Character] {
+        return gameBrain.charactersArray[0..<3].filter { (c) -> Bool in
+            c.life > 0
+        }
+    }
     
-    var charactersAliveP1 = [Character]() // Ce tableau contiendra les perso du joueur 1 qui ont health > 0 (vivants)
-    var charactersAliveP2 = [Character]() // Ce tableau contiendra les perso du joueur 2 qui ont health > 0 (vivants)
-    
+    func getCharactersAlivesP2() -> [Character] {
+        return gameBrain.charactersArray[3..<6].filter { (c) -> Bool in
+            c.life > 0
+        }
+    }
     
     //MARK: - Partie Attaque
     
@@ -23,15 +31,13 @@ class GameBrain {
         var index = 0 // Le chiffre qui s'affiche dans la console permettant le choix du personnage
         var charsAliveAttacking = [Character]() // Tableau des personnages encore en vie du joueur qui attaque
         var charsAliveAttacked = [Character]() // Tableau des personnages encore en vie du joueur qui subit l'attaque
-        
-        gameCycle.updateArrayOfCharactersAlive() // Mise à jour des tableaux charactersAliveP1/P2 avant de les utiliser
-        
+                
         if gameCycle.playerPlaying == 1 { // En fonction du joueur à qui s'est le tour, j'attribue telle ou telle liste de personnages
-            charsAliveAttacking = charactersAliveP1
-            charsAliveAttacked = charactersAliveP2
+            charsAliveAttacking = getCharactersAlivesP1()
+            charsAliveAttacked = getCharactersAlivesP2()
         } else {
-            charsAliveAttacking = charactersAliveP2
-            charsAliveAttacked = charactersAliveP1
+            charsAliveAttacking = getCharactersAlivesP2()
+            charsAliveAttacked = getCharactersAlivesP1()
         }
         
         print("\nLe joueur \(gameCycle.playerPlaying) choisi le personnage qui va attaquer :")
@@ -68,7 +74,6 @@ class GameBrain {
             print("Saisie incorrecte, recommencez.")
             userChooseAttacker()
         }
-        
     }
     
     // Cette méthode affiche dans la console les personnages encore en vie de l'équipe adverse et permet la sélection du personnage à attaquer (elle appelle aussila méthode attack)
@@ -125,12 +130,11 @@ class GameBrain {
         var index = 0
         var charAliveHeal = [Character]() // Tableau des personnages du joueur pour le heal
         
-        gameCycle.updateArrayOfCharactersAlive()
         
         if gameCycle.playerPlaying == 1 { // J'utilise ces variables pour avoir un seul switch
-            charAliveHeal = charactersAliveP1
+            charAliveHeal = getCharactersAlivesP1()
         } else {
-            charAliveHeal = charactersAliveP2
+            charAliveHeal = getCharactersAlivesP2()
         }
         
         print("\nLe joueur \(gameCycle.playerPlaying) choisi le personnage qui va soigner :")
@@ -233,6 +237,5 @@ class GameBrain {
             () // On ne fait rien
         }
     }
-    
-    
+
 }

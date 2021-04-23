@@ -121,37 +121,17 @@ class GameCycle {
     }
     
     func endOfTurn() {
-        
-        updateArrayOfCharactersAlive()
-        
-        if gameBrain.charactersAliveP2.count == 0 {
+                
+        if gameBrain.getCharactersAlivesP2().count == 0 {
             print("\nTous les personnages du joueur 2 sont morts. LE JOUEUR 1 A GAGNÉ !!!")
             gameEnded()
-        } else if gameBrain.charactersAliveP1.count == 0 {
+        } else if gameBrain.getCharactersAlivesP1().count == 0 {
             print("\nTous les personnages du joueur 1 sont morts. LE JOUEUR 2 A GAGNÉ !!!")
             gameEnded()
         } else {
             
             playerPlaying = playerPlaying == 1 ? 2 : 1
             nextTurn()
-        }
-    }
-    
-    func updateArrayOfCharactersAlive() {
-        
-        gameBrain.charactersAliveP1.removeAll()
-        gameBrain.charactersAliveP2.removeAll()
-        
-        for character in gameBrain.charactersArray[0..<3] {
-            if character.life > 0 {
-                gameBrain.charactersAliveP1.append(character)
-            }
-        }
-        
-        for character in gameBrain.charactersArray[3..<6] {
-            if character.life > 0 {
-                gameBrain.charactersAliveP2.append(character)
-            }
         }
     }
     
