@@ -12,25 +12,20 @@ var gameBrain = GameBrain()
 class GameCycle {
     
     var playerPlaying = 1 // Vaut 1 ou 2. Indique à quel joueur c'est le tour.
-    
     var numberOfTurn = 0 // Compteur pour le nombres de tours dans la partie
-    
     
     func startGame() {
         
         print("Bienvenue dans le jeu")
         playersChooseCharacters()
-        
     }
     
     func playersChooseCharacters() {
         
-        if gameBrain.charactersArray.count < 6 { // Quand on passe à 6, les 2 joueurs ont choisi, on lance la partie
-            if gameBrain.charactersArray.count < 3 { // Dans ce cas c'est le joueur 1 qui choisi ses personnages
-                print("\nLe joueur 1 choisi son personnage \(gameBrain.charactersArray.count + 1) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
-            } else {
-                print("\nLe joueur 2 choisi son personnage \(gameBrain.charactersArray.count - 2) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
-            }
+        // Quand on passe à 6, les 2 joueurs ont choisi, on lance la partie
+        if gameBrain.charactersArray.count < 6 {
+            
+            showSelectionState()
             
             let userInput = readLine() //On récupère l'input
             
@@ -60,34 +55,39 @@ class GameCycle {
         } else { // On passe ici quand 6 personnages ont été ajouté dans le tableau charactersList
             startFight() // On démarre le combat
         }
+    }
+    
+    func showSelectionState() {
         
+        if gameBrain.charactersArray.count < 3 { // Dans ce cas c'est le joueur 1 qui choisi ses personnages
+            print("\nLe joueur 1 choisi son personnage \(gameBrain.charactersArray.count + 1) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
+        } else {
+            print("\nLe joueur 2 choisi son personnage \(gameBrain.charactersArray.count - 2) : \n1 - Chevalier \n2 - Archer \n3 - Sorcier \n4 - Dragon \n5 - Ninja \n6 - Squelette \n\nTapez un chiffre puis appuyez sur Entrer.")
+        }
     }
     
     func userCharacterName() -> String {
         
         print("Veuillez saisir un nom pour votre personnage.")
         
-        let userInputName = readLine() ?? "Default Name"
+        var userInputName = readLine() ?? "Default Name"
         //if userInputName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         //userInputName.isEmpty
         for character in gameBrain.charactersArray { // On parcourt chaque objet du tableau charactersList
             if userInputName == character.name { // Si le nom saisi par l'utilisateur se trouve déjà dans la propriété d'un des objets existant, c'est true
                 print("\n'\(userInputName)' déjà utilisé, le nom doit être unique.") // On averti l'utilisateur
-                _ = userCharacterName() // On rappelle cette même fonction pourqu'il resaisisse un nom
+                userInputName = userCharacterName() // On rappelle cette même fonction pourqu'il resaisisse un nom
             }
         }
-        return userInputName // On return le nom choisi par l'utilisateur s'il est unique
         
+        return userInputName // On return le nom choisi par l'utilisateur s'il est unique
     }
-    
-    
     
     func startFight() {
         
         print("----------------------------------------------------------------------")
         print("Le combat commence !")
         nextTurn()
-        
     }
     
     func nextTurn() {
@@ -118,7 +118,6 @@ class GameCycle {
             print("Il lui reste \(character.life) pdv.")
             endOfTurn()
         }
-        
     }
     
     func endOfTurn() {
@@ -132,15 +131,10 @@ class GameCycle {
             print("\nTous les personnages du joueur 1 sont morts. LE JOUEUR 2 A GAGNÉ !!!")
             gameEnded()
         } else {
-            if playerPlaying == 1 {
-                playerPlaying = 2
-            } else {
-                playerPlaying = 1
-            }
             
+            playerPlaying = playerPlaying == 1 ? 2 : 1
             nextTurn()
         }
-        
     }
     
     func updateArrayOfCharactersAlive() {
@@ -159,12 +153,10 @@ class GameCycle {
                 gameBrain.charactersAliveP2.append(character)
             }
         }
-        
     }
     
-    
-    
     func gameEnded() {
+        
         print("/n/n-----------------------------------------------------------------------")
         print("Compte rendu de la partie :")
         print("La partie c'est terminée en \(numberOfTurn) tours.")
@@ -177,7 +169,6 @@ class GameCycle {
             } else {
                 print("\(character.type) : \(character.name) est resté vivant avec \(character.life) pdv !")
             }
-            
         }
         
         print("\nJoueur 2 :")
@@ -190,5 +181,4 @@ class GameCycle {
             }
         }
     }
-    
 }
