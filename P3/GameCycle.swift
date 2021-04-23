@@ -122,10 +122,10 @@ class GameCycle {
     
     func endOfTurn() {
                 
-        if gameBrain.getCharactersAlivesP2().count == 0 {
+        if gameBrain.getCharactersAliveP2().count == 0 {
             print("\nTous les personnages du joueur 2 sont morts. LE JOUEUR 1 A GAGNÉ !!!")
             gameEnded()
-        } else if gameBrain.getCharactersAlivesP1().count == 0 {
+        } else if gameBrain.getCharactersAliveP1().count == 0 {
             print("\nTous les personnages du joueur 1 sont morts. LE JOUEUR 2 A GAGNÉ !!!")
             gameEnded()
         } else {

@@ -11,13 +11,13 @@ class GameBrain {
     
     var charactersArray = [Character]() // Ce tableau se remplit a chaque fois qu'un joueur choisi un personnage. (Il contiendra donc 6 'Character' à la fin de la sélection)
 
-    func getCharactersAlivesP1() -> [Character] {
+    func getCharactersAliveP1() -> [Character] {
         return gameBrain.charactersArray[0..<3].filter { (c) -> Bool in
             c.life > 0
         }
     }
     
-    func getCharactersAlivesP2() -> [Character] {
+    func getCharactersAliveP2() -> [Character] {
         return gameBrain.charactersArray[3..<6].filter { (c) -> Bool in
             c.life > 0
         }
@@ -33,11 +33,11 @@ class GameBrain {
         var charsAliveAttacked = [Character]() // Tableau des personnages encore en vie du joueur qui subit l'attaque
                 
         if gameCycle.playerPlaying == 1 { // En fonction du joueur à qui s'est le tour, j'attribue telle ou telle liste de personnages
-            charsAliveAttacking = getCharactersAlivesP1()
-            charsAliveAttacked = getCharactersAlivesP2()
+            charsAliveAttacking = getCharactersAliveP1()
+            charsAliveAttacked = getCharactersAliveP2()
         } else {
-            charsAliveAttacking = getCharactersAlivesP2()
-            charsAliveAttacked = getCharactersAlivesP1()
+            charsAliveAttacking = getCharactersAliveP2()
+            charsAliveAttacked = getCharactersAliveP1()
         }
         
         print("\nLe joueur \(gameCycle.playerPlaying) choisi le personnage qui va attaquer :")
@@ -132,9 +132,9 @@ class GameBrain {
         
         
         if gameCycle.playerPlaying == 1 { // J'utilise ces variables pour avoir un seul switch
-            charAliveHeal = getCharactersAlivesP1()
+            charAliveHeal = getCharactersAliveP1()
         } else {
-            charAliveHeal = getCharactersAlivesP2()
+            charAliveHeal = getCharactersAliveP2()
         }
         
         print("\nLe joueur \(gameCycle.playerPlaying) choisi le personnage qui va soigner :")
