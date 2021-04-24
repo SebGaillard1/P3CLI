@@ -11,12 +11,14 @@ class GameBrain {
     
     var charactersArray = [Character]() // Ce tableau se remplit a chaque fois qu'un joueur choisi un personnage. (Il contiendra donc 6 'Character' à la fin de la sélection)
 
+    // Cette méthode renvoi le tableau des personnages encore en vie du joueur 1
     func getCharactersAliveP1() -> [Character] {
         return gameBrain.charactersArray[0..<3].filter { (c) -> Bool in
             c.life > 0
         }
     }
     
+    // Cette méthode renvoi le tableau des personnages encore en vie du joueur 2
     func getCharactersAliveP2() -> [Character] {
         return gameBrain.charactersArray[3..<6].filter { (c) -> Bool in
             c.life > 0
@@ -53,11 +55,11 @@ class GameBrain {
         switch userInput {
         case "1":
             print("\(charsAliveAttacking[0].name) selectionné") // On avertit l'utilisateur du personnage selectionné
-            userChooseTarget(characterAttacking: charsAliveAttacking[0], charactersAlive: charsAliveAttacked)
+            userChooseTarget(characterAttacking: charsAliveAttacking[0], ennemyCharactersAlive: charsAliveAttacked)
         case "2":
             if charsAliveAttacking.count > 1 { // Les cas 2 et 3 nécessitent le check d'une condition : y a t il 2 ou 3 personnages ?
                 print("\(charsAliveAttacking[1].name) selectionné")
-                userChooseTarget(characterAttacking: charsAliveAttacking[1], charactersAlive: charsAliveAttacked)
+                userChooseTarget(characterAttacking: charsAliveAttacking[1], ennemyCharactersAlive: charsAliveAttacked)
             } else { // S'il n'y a qu'un seul personnage encore en vie et que l'utilisateur saisi '2', c'est une saisie invalide
                 print("Saisie incorrecte, recommencez.")
                 userChooseAttacker()
@@ -65,7 +67,7 @@ class GameBrain {
         case "3":
             if charsAliveAttacking.count > 2 {
                 print("\(charsAliveAttacking[2].name) selectionné")
-                userChooseTarget(characterAttacking: charsAliveAttacking[2], charactersAlive: charsAliveAttacked)
+                userChooseTarget(characterAttacking: charsAliveAttacking[2], ennemyCharactersAlive: charsAliveAttacked)
             } else {
                 print("Saisie incorrecte, recommencez.")
                 userChooseAttacker()
@@ -76,14 +78,14 @@ class GameBrain {
         }
     }
     
-    // Cette méthode affiche dans la console les personnages encore en vie de l'équipe adverse et permet la sélection du personnage à attaquer (elle appelle aussila méthode attack)
-    func userChooseTarget(characterAttacking: Character, charactersAlive: [Character]) {
+    // Cette méthode affiche dans la console les personnages encore en vie de l'équipe adverse et permet la sélection du personnage à attaquer (elle appelle aussi la méthode attack)
+    func userChooseTarget(characterAttacking: Character, ennemyCharactersAlive: [Character]) {
         
         var index = 0 // Le chiffre qui s'affiche dans la console permettant le choix du personnage
         
         // On affiche la liste des personnages encore en vie qui peuvent subir une attaque.
         print("\nChoisissez le personnage qui va recevoir l'attaque : ")
-        for character in charactersAlive {
+        for character in ennemyCharactersAlive {
             index += 1
             print("\(index) - \(character.type) : \(character.name), \(character.life) pdv")
         }
@@ -92,46 +94,60 @@ class GameBrain {
         
         switch userInput {
         case "1":
-            attack(with: characterAttacking, in: charactersAlive, index: userInput!)
+            attack(with: characterAttacking, in: ennemyCharactersAlive, index: userInput!)
         case "2":
-            if charactersAlive.count > 1 {
-                attack(with: characterAttacking, in: charactersAlive, index: userInput!)
+            if ennemyCharactersAlive.count > 1 {
+                attack(with: characterAttacking, in: ennemyCharactersAlive, index: userInput!)
             } else {
                 print("Saisie incorrecte, recommencez.")
-                attack(with: characterAttacking, in: charactersAlive, index: userInput!)
+                attack(with: characterAttacking, in: ennemyCharactersAlive, index: userInput!)
             }
         case "3":
-            if charactersAlive.count > 2 {
-                attack(with: characterAttacking, in: charactersAlive, index: userInput!)
+            if ennemyCharactersAlive.count > 2 {
+                attack(with: characterAttacking, in: ennemyCharactersAlive, index: userInput!)
             } else {
                 print("Saisie incorrecte, recommencez.")
-                userChooseTarget(characterAttacking: characterAttacking, charactersAlive: charactersAlive)
+                userChooseTarget(characterAttacking: characterAttacking, ennemyCharactersAlive: ennemyCharactersAlive)
             }
         default:
             print("Saisie incorrecte, recommencez.")
-            userChooseTarget(characterAttacking: characterAttacking, charactersAlive: charactersAlive)
+            userChooseTarget(characterAttacking: characterAttacking, ennemyCharactersAlive: ennemyCharactersAlive)
         }
     }
     
+    // Cette méthode réalise l'attaque
     func attack(with characterAttacking: Character, in charactersAlive: [Character], index userInput: String) {
         
-        let index = Int(userInput)! - 1
-        randomChest(characterAttacking: characterAttacking)
+        let index = Int(userInput)! - 1 // Index de la cible dans le tableau de personnages vivants du joueur ennemi
+        randomChest(characterAttacking: characterAttacking) // On fait apparaitre ou non un coffre avant d'attaquer
         
-        charactersAlive[index].life -= characterAttacking.arme.degats
+        charactersAlive[index].life -= characterAttacking.arme.degats // On applique les dégats au personnage attaqué
         print("\(characterAttacking.name) attaque \(charactersAlive[index].name) avec \(characterAttacking.arme.name) et lui inflige \(characterAttacking.arme.degats) dégâts !")
-        gameCycle.checkIfCharacterDie(character: charactersAlive[index])
+        checkIfCharacterDie(character: charactersAlive[index]) // On regarde si le personnage est mort ou non
+    }
+    
+    // Cette méthode check si le personnage qui vient d'être attaqué est mort et agit en fonction
+    func checkIfCharacterDie(character: Character) {
+        
+        if character.life <= 0 { // Si le personnage qui vient de subir l'attaque à 0 pdv ou moins c'est qu'il est mort.
+            print("\nLe personnage \(character.type) nommé \(character.name) est mort !")
+            gameCycle.endOfTurn()
+        } else {
+            print("Il lui reste \(character.life) pdv.") // Sinon il est encore vivant. On informe les joueurs des pdv restants
+            gameCycle.endOfTurn() // Puis c'est la fin du tour
+        }
     }
     
     //MARK: - Partie soin
     
+    // Cette méthode est appelée quand le joueur choisi de soigner. Elle permet la selection du joueur qui fait le soin
     func selectCharacterHealing() {
         
         var index = 0
         var charAliveHeal = [Character]() // Tableau des personnages du joueur pour le heal
         
         
-        if gameCycle.playerPlaying == 1 { // J'utilise ces variables pour avoir un seul switch
+        if gameCycle.playerPlaying == 1 {
             charAliveHeal = getCharactersAliveP1()
         } else {
             charAliveHeal = getCharactersAliveP2()
@@ -172,6 +188,7 @@ class GameBrain {
         }
     }
     
+    // Cette méthode permet la selection du personnage qui recoit le soin et effectue le soin
     func selectTargetAndHeal(characterHealing: Character, charactersAlive: [Character]) {
         
         var index = 0
@@ -216,10 +233,10 @@ class GameBrain {
     
     //MARK: - Partie coffre
     
-    
+    // Cette méthode fait apparaitre ou non un coffre et change l'arme du personnage
     func randomChest(characterAttacking: Character) {
         
-        let randomInt = Int.random(in: 0...100)
+        let randomInt = Int.random(in: 0...99) // Génère un chiffre aléatoire entre 0 et 99
         switch randomInt {
         case 0..<5:
             characterAttacking.arme = Weapon(name: "Épée légendaire", degats: 50)
