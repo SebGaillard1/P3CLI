@@ -10,4 +10,3 @@ import Foundation
 var gameCycle = GameCycle() // Instanciation d'un objet GameCycle
 
 gameCycle.startGame() // On lance la partie
-

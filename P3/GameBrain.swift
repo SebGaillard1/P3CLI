@@ -47,7 +47,7 @@ class GameBrain {
         // Ici boucle for pour afficher la liste de personnages qui peuvent attaquer avec leurs infos utiles
         for character in charsAliveAttacking {
             index += 1
-            print("\(index) - \(character.type) : \(character.name), \(character.arme.degats) dgts")
+            print("\(index) - \(character.type) : \(character.name), \(character.weapon.degats) dgts")
         }
         
         let userInput = readLine() // On récupère la saisie de l'utilisateur
@@ -121,8 +121,8 @@ class GameBrain {
         let index = Int(userInput)! - 1 // Index de la cible dans le tableau de personnages vivants du joueur ennemi
         randomChest(characterAttacking: characterAttacking) // On fait apparaitre ou non un coffre avant d'attaquer
         
-        charactersAlive[index].life -= characterAttacking.arme.degats // On applique les dégats au personnage attaqué
-        print("\(characterAttacking.name) attaque \(charactersAlive[index].name) avec \(characterAttacking.arme.name) et lui inflige \(characterAttacking.arme.degats) dégâts !")
+        charactersAlive[index].life -= characterAttacking.weapon.degats // On applique les dégats au personnage attaqué
+        print("\(characterAttacking.name) attaque \(charactersAlive[index].name) avec \(characterAttacking.weapon.name) et lui inflige \(characterAttacking.weapon.degats) dégâts !")
         checkIfCharacterDie(character: charactersAlive[index]) // On regarde si le personnage est mort ou non
     }
     
@@ -239,16 +239,16 @@ class GameBrain {
         let randomInt = Int.random(in: 0...99) // Génère un chiffre aléatoire entre 0 et 99
         switch randomInt {
         case 0..<5:
-            characterAttacking.arme = Weapon(name: "Épée légendaire", degats: 50)
+            characterAttacking.weapon = Weapon(name: "Épée légendaire", degats: 50)
             print("Incroyable, un coffre vient d'apparaître devant vous. Il contient une arme très rare !")
         case 5..<15:
-            characterAttacking.arme = Weapon(name: "Bâton magique", degats: 40)
+            characterAttacking.weapon = Weapon(name: "Bâton magique", degats: 40)
             print("Superbe, un coffre vient d'apparaître devant vous. Il contient une arme rare !")
         case 15..<30:
-            characterAttacking.arme = Weapon(name: "Marteau", degats: 30)
+            characterAttacking.weapon = Weapon(name: "Marteau", degats: 30)
             print("Un coffre vient d'apparaître devant vous !")
         case 30..<35:
-            characterAttacking.arme = Weapon(name: "Canne à pêche", degats: 10)
+            characterAttacking.weapon = Weapon(name: "Canne à pêche", degats: 10)
             print("Un coffre vient d'apparaître devant vous mais son contenu risque de vous déplaire... !")
         default:
             () // On ne fait rien

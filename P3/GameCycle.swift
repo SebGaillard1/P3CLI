@@ -72,8 +72,15 @@ class GameCycle {
     func userCharacterName() -> String {
         
         print("Veuillez saisir un nom pour votre personnage.")
+        var userInputName = readLine() ?? ""
         
-        var userInputName = readLine() ?? "Default Name"
+        // On check si le nom n'est pas vide
+        let userIsEmpty = userInputName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if userIsEmpty.isEmpty {
+            print("Vous n'avez pas saisi de nom !")
+            userInputName = userCharacterName()
+        }
+        
         for character in gameBrain.charactersArray { // On parcourt chaque objet du tableau charactersList
             if userInputName == character.name { // Si le nom saisi par l'utilisateur se trouve déjà dans la propriété d'un des objets existant, c'est true
                 print("\n'\(userInputName)' déjà utilisé, le nom doit être unique.") // On averti l'utilisateur

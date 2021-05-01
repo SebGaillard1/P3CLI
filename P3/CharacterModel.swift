@@ -11,14 +11,14 @@ class Character {
     
     var life: Int
     var name: String
-    var arme: Weapon
+    var weapon: Weapon
     var type: Type
     var heal: Int
     
     init(life: Int, name: String, arme: Weapon, type: Type, heal: Int) {
         self.life = life
         self.name = name
-        self.arme = arme
+        self.weapon = arme
         self.type = type
         self.heal = heal
     }
@@ -45,18 +45,18 @@ class Wizard: Character {
 
 class Dragon: Character {
     init(dragonName: String) {
-        super.init(life: 50, name: dragonName, arme: Weapon.init(name: "Feu", degats: 40), type: .Dragon, heal: 10)
+        super.init(life: 50, name: dragonName, arme: Weapon.init(name: "Feu", degats: 40), type: .Dragon, heal: 12)
     }
 }
 
 class Ninja: Character {
     init(ninjaName: String) {
-        super.init(life: 60, name: ninjaName, arme: Weapon.init(name: "Katana", degats: 35), type: .Ninja, heal: 10)
+        super.init(life: 60, name: ninjaName, arme: Weapon.init(name: "Katana", degats: 35), type: .Ninja, heal: 15)
     }
 }
 class Skeleton: Character {
     init(skeletonName: String) {
-        super.init(life: 40, name: skeletonName, arme: Weapon.init(name: "Os", degats: 30), type: .Skeleton, heal: 10)
+        super.init(life: 40, name: skeletonName, arme: Weapon.init(name: "Os", degats: 30), type: .Skeleton, heal: 20)
     }
 }
 
