@@ -240,16 +240,16 @@ class GameBrain {
         switch randomInt {
         case 0..<5:
             characterAttacking.weapon = Weapon(name: "Épée légendaire", degats: 50)
-            print("Incroyable, un coffre vient d'apparaître devant vous. Il contient une arme très rare !")
+            print("\nIncroyable, un coffre vient d'apparaître devant vous. Il contient une arme très rare : une épée légendaire !")
         case 5..<15:
             characterAttacking.weapon = Weapon(name: "Bâton magique", degats: 40)
-            print("Superbe, un coffre vient d'apparaître devant vous. Il contient une arme rare !")
+            print("\nSuperbe, un coffre vient d'apparaître devant vous. Il contient une arme rare, un bâton magique !")
         case 15..<30:
             characterAttacking.weapon = Weapon(name: "Marteau", degats: 30)
-            print("Un coffre vient d'apparaître devant vous !")
+            print("\nUn coffre vient d'apparaître devant vous, il contient un marteau !")
         case 30..<35:
             characterAttacking.weapon = Weapon(name: "Canne à pêche", degats: 10)
-            print("Un coffre vient d'apparaître devant vous mais son contenu risque de vous déplaire... !")
+            print("\nUn coffre vient d'apparaître devant vous mais son contenu risque de vous déplaire... Il contient une canne à pêche !")
         default:
             () // On ne fait rien
         }

@@ -33,30 +33,30 @@ class Knight: Character {
 
 class Archer: Character {
     init(archerName: String) {
-        super.init(life: 90, name: archerName, arme: Weapon.init(name: "Flêches", degats: 22), type: .Archer, heal: 10)
+        super.init(life: 90, name: archerName, arme: Weapon.init(name: "Flêches", degats: 22), type: .Archer, heal: 12)
     }
 }
 
 class Wizard: Character {
     init(wizardName: String) {
-        super.init(life: 80, name: wizardName, arme: Weapon.init(name: "Sort", degats: 24), type: .Wizard, heal: 10)
+        super.init(life: 80, name: wizardName, arme: Weapon.init(name: "Sort", degats: 24), type: .Wizard, heal: 15)
     }
 }
 
 class Dragon: Character {
     init(dragonName: String) {
-        super.init(life: 50, name: dragonName, arme: Weapon.init(name: "Feu", degats: 40), type: .Dragon, heal: 12)
+        super.init(life: 50, name: dragonName, arme: Weapon.init(name: "Feu", degats: 40), type: .Dragon, heal: 20)
     }
 }
 
 class Ninja: Character {
     init(ninjaName: String) {
-        super.init(life: 60, name: ninjaName, arme: Weapon.init(name: "Katana", degats: 35), type: .Ninja, heal: 15)
+        super.init(life: 60, name: ninjaName, arme: Weapon.init(name: "Katana", degats: 35), type: .Ninja, heal: 17)
     }
 }
 class Skeleton: Character {
     init(skeletonName: String) {
-        super.init(life: 40, name: skeletonName, arme: Weapon.init(name: "Os", degats: 30), type: .Skeleton, heal: 20)
+        super.init(life: 40, name: skeletonName, arme: Weapon.init(name: "Os", degats: 30), type: .Skeleton, heal: 22)
     }
 }
 
